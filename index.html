@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دفتر هوشمند مدیریت کلاس ششم</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<meta name="theme-color" content="#0f172a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{--bg:#0b1020;--card:#121a2b;--card2:#182238;--ink:#eef4ff;--muted:#93a4bf;--p:#5b8cff;--p2:#7c5cff;--g:#22c55e;--r:#f05252;--y:#f59e0b;--b:#22b8cf;--border:#26334d;--shadow:0 10px 30px #0008}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#172554 0,transparent 30%),radial-gradient(circle at 100% 0%,#312e81 0,transparent 25%),var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;min-height:100vh}.app{max-width:1250px;margin:auto;padding:12px}
+header{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+h1{margin:0 0 5px;font-size:24px}.sub{opacity:.9}.top{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.top input{border:0;border-radius:10px;padding:9px;background:#fff}.datebox{padding:9px 12px;background:#ffffff22;border-radius:10px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:10px 0;position:sticky;top:0;background:#0b1020ee;backdrop-filter:blur(12px);z-index:10}.tabs button{white-space:nowrap;border:1px solid var(--border);background:var(--card);color:var(--muted);padding:10px 13px;border-radius:11px;transition:.18s}.tabs button:hover{transform:translateY(-1px);border-color:#4b6090}.tabs button.active{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 5px 18px #5b8cff33}
+.tab{display:none}.tab.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:linear-gradient(145deg,#121a2b,#101726);border:1px solid var(--border);border-radius:17px;padding:15px;box-shadow:var(--shadow);margin-bottom:12px}.card h3{margin:0 0 12px;font-size:16px}
+.big{font-size:27px;font-weight:800}.muted,.small{color:var(--muted);font-size:12px}.green{color:var(--g)}.red{color:var(--r)}.blue{color:var(--p)}
+.form{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.form.wide{grid-template-columns:repeat(5,1fr)}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:#0e1627;color:var(--ink);font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px #5b8cff18}option{background:#121a2b;color:#fff}textarea{min-height:75px}
+button{font:inherit;cursor:pointer}.btn{border:0;border-radius:10px;padding:10px 13px;background:var(--p);color:#fff}.btn.green{background:#dcfce7;color:#166534}.btn.red{background:#fee2e2;color:#991b1b}.btn.gray{background:#f1f5f9;color:#334155}.btn.purple{background:#ede9fe;color:#5b21b6}
+.row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:bold}.badge.g{background:#dcfce7;color:#166534}.badge.r{background:#fee2e2;color:#991b1b}.badge.y{background:#fef3c7;color:#92400e}.badge.b{background:#dbeafe;color:#1d4ed8}.badge.p{background:#ede9fe;color:#6d28d9}
+table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#101827}th,td{padding:9px;border-bottom:1px solid var(--border);font-size:12px;text-align:right}th{background:#182238;color:#a9b8d0}tr:last-child td{border-bottom:0}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.actions button{border:0;border-radius:8px;padding:7px}.present{background:#123d2a;color:#6ee7a0}.absent{background:#481d26;color:#ff8585}.late{background:#4a3511;color:#ffd36a}.excused{background:#252b55;color:#aeb7ff}.actions button{border:1px solid transparent;transition:.15s;font-weight:700}.actions button:hover{transform:translateY(-1px);filter:brightness(1.12)}.actions button.selected{outline:3px solid #fff;box-shadow:0 0 0 5px #5b8cff88;transform:scale(1.03);filter:brightness(1.25)}.actions button.selected::after{content:'  ●';color:#fff}
+.students{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.student{border:1px solid var(--border);border-radius:14px;padding:12px;background:linear-gradient(145deg,#182238,#111a2b);box-shadow:0 5px 18px #0003}.student strong{display:block;margin-bottom:6px}
+.progress{height:9px;background:#26334d;border-radius:20px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#3b82f6)}
+.item{padding:11px;border-right:5px solid var(--y);background:#fffbeb;border-radius:10px;margin:7px 0}.item.done{opacity:.55;text-decoration:line-through;border-right-color:var(--g);background:#f0fdf4}
+.dash-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.dash-person{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:linear-gradient(145deg,#182238,#111a2b)}
+.dash-person .name{font-weight:800}
+.dash-person .detail{font-size:12px;color:#9fb0ca;margin-top:3px}
+.dash-person .tag{white-space:nowrap;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800}
+.dash-person.abs{border-right:4px solid #ef4444}
+.dash-person.pen{border-right:4px solid #f59e0b}
+.empty{text-align:center;padding:25px;color:#70819f}.danger{border-right-color:var(--r);background:#fff7f7}
+.profile{display:grid;grid-template-columns:280px 1fr;gap:12px}.metric{background:#182238;border-radius:12px;padding:11px}.metric b{font-size:21px;display:block;margin-top:4px}
+footer{text-align:center;color:#94a3b8;padding:18px;font-size:11px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.form,.form.wide{grid-template-columns:repeat(2,1fr)}.students{grid-template-columns:1fr 1fr}.profile{grid-template-columns:1fr}}
+@media(max-width:560px){.app{padding:8px}.grid,.form,.form.wide,.students{grid-template-columns:1fr}.actions{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<h1>📚 دفتر هوشمند مدیریت کلاس ششم</h1>
+<div class="sub">حضور و غیاب • تکلیف • نمرات • تشویقی • انضباط • جریمه • گزارش پیشرفت</div>
+<div class="top"><input id="date" type="date"><span class="datebox" id="faDate"></span><span class="datebox" id="networkStatus">🟢 آنلاین</span><button id="installBtn" class="btn" style="display:none;background:#0f172a" type="button">📲 نصب برنامه</button></div>
+</header>
+
+<nav class="tabs">
+<button class="active" data-t="home">داشبورد</button><button data-t="att">حضور و غیاب</button><button data-t="stu">دانش‌آموزان</button><button data-t="task">تکلیف</button><button data-t="grade">نمرات</button><button data-t="behavior">تشویقی و انضباط</button><button data-t="rem">یادآوری</button><button data-t="report">گزارش و کارنامه</button><button data-t="data">پشتیبان</button>
+</nav>
+
+<section id="home" class="tab active">
+<div class="grid">
+<div class="card"><div class="muted">دانش‌آموزان</div><div class="big blue" id="s1">۰</div></div>
+<div class="card"><div class="muted">حاضر امروز</div><div class="big green" id="s2">۰</div></div>
+<div class="card"><div class="muted">غایب امروز</div><div class="big red" id="s3">۰</div></div>
+<div class="card"><div class="muted">جریمه‌های باز</div><div class="big red" id="s4">۰</div></div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>👤 غایبین امروز</h3>
+<div class="small">نام دانش‌آموزانی که برای امروز «غایب» ثبت شده است.</div>
+<div id="absentNames" class="dash-list"></div>
+</div>
+<div class="card">
+<h3>⚠️ جریمه‌شده‌ها</h3>
+<div class="small">دانش‌آموزانی که هنوز جریمه یا تعهد باز دارند.</div>
+<div id="penaltyNames" class="dash-list"></div>
+</div>
+</div>
+<div class="grid">
+<div class="card"><h3>📌 وضعیت امروز</h3><div id="today"></div></div>
+<div class="card"><h3>🔔 موارد نزدیک</h3><div id="near"></div></div>
+</div>
+<div class="card"><h3>🏆 دانش‌آموزان با بیشترین امتیاز تشویقی</h3><div id="topRewards"></div></div>
+</section>
+
+<section id="stu" class="tab">
+<div class="card"><h3>➕ افزودن دانش‌آموز</h3><div class="form">
+<input id="sn" placeholder="نام و نام خانوادگی"><input id="sc" placeholder="کد/شماره"><input id="snote" placeholder="یادداشت اولیه"><button class="btn" onclick="addStudent()">افزودن</button>
+</div></div>
+<div class="card"><h3>👥 فهرست دانش‌آموزان</h3><input id="search" placeholder="جست‌وجوی نام..." oninput="renderStudents()"><div id="students" class="students" style="margin-top:10px"></div></div>
+</section>
+
+<section id="att" class="tab">
+<div class="card"><h3>📝 حضور و غیاب — <span id="attDate"></span></h3><div class="small">با انتخاب هر وضعیت، همان دکمه با حلقه روشن مشخص می‌شود.</div><table><thead><tr><th>دانش‌آموز</th><th>وضعیت</th><th>یادداشت</th></tr></thead><tbody id="attTable"></tbody></table></div>
+</section>
+
+<section id="task" class="tab">
+<div class="card"><h3>📖 تکلیف روز</h3><div class="form wide">
+<input id="tt" placeholder="عنوان تکلیف"><input id="ts" placeholder="درس"><input id="td" type="date"><input id="tdeadline" type="date"><button class="btn" onclick="addTask()">ثبت</button>
+</div><textarea id="tdesc" placeholder="توضیحات، صفحه کتاب و..."></textarea></div>
+<div class="card"><h3>تکالیف ثبت‌شده</h3><div id="tasks"></div></div>
+</section>
+
+<section id="grade" class="tab">
+<div class="card"><h3>📊 ثبت نمره</h3><div class="form">
+<select id="gs"></select><input id="gsub" placeholder="درس"><input id="gv" type="number" min="0" max="20" step=".25" placeholder="نمره از ۲۰"><button class="btn" onclick="addGrade()">ثبت</button>
+</div></div>
+<div class="card"><h3>➕ نمره تشویقی</h3><div class="form">
+<select id="rs"></select><input id="rv" type="number" min="0" max="5" step=".5" placeholder="امتیاز تشویقی"><input id="rr" placeholder="علت تشویق"><button class="btn green" onclick="addReward()">ثبت تشویقی</button>
+</div></div>
+<div class="card"><h3>📈 نمرات و میانگین</h3><select id="chartS" onchange="renderProfile()"></select><div id="chart"></div></div>
+<div class="card"><div id="gradeList"></div></div>
+</section>
+
+<section id="behavior" class="tab">
+<div class="card"><h3>⭐ ثبت تشویق / 🧭 انضباط</h3><div class="form wide">
+<select id="bs"></select><select id="bt"><option>تشویق</option><option>نکته مثبت</option><option>تذکر انضباطی</option><option>یادداشت رفتاری</option></select><input id="btext" placeholder="شرح"><input id="bdate" type="date"><button class="btn" onclick="addBehavior()">ثبت</button>
+</div></div>
+<div class="card"><h3>⚠️ جریمه و تعهد</h3><div class="form">
+<select id="ps"></select><input id="pt" placeholder="عنوان جریمه/تعهد"><input id="pd" type="date"><button class="btn red" onclick="addPenalty()">ثبت</button>
+</div><div class="small">مهلت را می‌توان تا فردا یا جلسه بعدی گذاشت.</div></div>
+<div class="card"><div id="behaviorList"></div></div><div class="card"><div id="penalties"></div></div>
+</section>
+
+<section id="rem" class="tab">
+<div class="card"><h3>🔔 یادآوری</h3><div class="form"><input id="rt" placeholder="عنوان"><input id="rd" type="date"><input id="rx" placeholder="توضیح"><button class="btn" onclick="addReminder()">افزودن</button></div></div>
+<div class="card"><div id="reminders"></div></div>
+</section>
+
+<section id="report" class="tab">
+<div class="card"><h3>📋 پرونده کامل دانش‌آموز</h3><select id="profileS" onchange="renderProfile()"></select><div id="profile"></div></div>
+<div class="card"><h3>🖨️ گزارش ماه/بازه و کارنامه</h3><div class="form"><input id="from" type="date"><input id="to" type="date"><select id="reportS"></select><button class="btn" onclick="printReport()">چاپ / ذخیره PDF</button></div></div>
+</section>
+
+<section id="data" class="tab">
+<div class="card"><h3>💾 پشتیبان اطلاعات</h3><p class="small">برای جلوگیری از از دست رفتن اطلاعات، هر چند وقت یک‌بار پشتیبان بگیرید.</p><div class="row"><button class="btn" onclick="backup()">دانلود پشتیبان JSON</button><button class="btn gray" onclick="document.getElementById('restore').click()">بازیابی پشتیبان</button><input id="restore" type="file" accept=".json" hidden onchange="restore(event)"></div></div>
+<div class="card"><h3>📑 خروجی Excel</h3><p class="small">فایل CSV با UTF-8 ساخته می‌شود و با Excel قابل باز شدن است.</p><button class="btn green" onclick="exportCSV()">دانلود گزارش Excel</button></div>
+</section>
+
+<footer>نسخه آزمایشی وب‌اپلیکیشن • اطلاعات فعلاً روی همین دستگاه ذخیره می‌شود</footer>
+</div>
+
+<script>
+const K='smartClass6_v3';
+let db=JSON.parse(localStorage.getItem(K)||'null');if(!db){try{let old=JSON.parse(localStorage.getItem('smartClass6_v2')||'null');db=old||null}catch(e){db=null}}db=db||{students:[],att:{},tasks:[],grades:[],rewards:[],behavior:[],penalties:[],reminders:[]};
+const $=id=>document.getElementById(id);
+const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+function save(){localStorage.setItem(K,JSON.stringify(db));renderAll()}
+function iso(){return $('date').value}
+function faDate(x){if(!x)return'—';return new Intl.DateTimeFormat('fa-IR-u-ca-persian',{year:'numeric',month:'long',day:'numeric'}).format(new Date(x+'T12:00:00'))}
+function next(){let d=new Date(iso()+'T12:00:00');d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)}
+function opts(id){let elx=$(id),old=elx.value;elx.innerHTML=db.students.length?`<option value="">انتخاب دانش‌آموز...</option>`+db.students.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join(''):`<option value="">هنوز دانش‌آموزی اضافه نشده</option>`;if(old&&db.students.some(s=>String(s.id)===String(old)))elx.value=old}
+function addStudent(){let n=$('sn').value.trim();if(!n)return alert('نام را وارد کنید');db.students.push({id:Date.now(),name:n,code:$('sc').value.trim(),note:$('snote').value.trim()});$('sn').value='';$('sc').value='';$('snote').value='';save()}
+function delStudent(id){if(confirm('دانش‌آموز حذف شود؟')){db.students=db.students.filter(s=>s.id!=id);save()}}
+function setAtt(id,status){db.att[iso()]??={};db.att[iso()][id]??={};db.att[iso()][id].status=status;save()}
+function noteAtt(id,v){db.att[iso()]??={};db.att[iso()][id]??={};db.att[iso()][id].note=v;localStorage.setItem(K,JSON.stringify(db))}
+function addTask(){let title=$('tt').value.trim();if(!title)return alert('عنوان تکلیف را وارد کنید');db.tasks.push({id:Date.now(),date:$('td').value||iso(),deadline:$('tdeadline').value||iso(),title,subject:$('ts').value,desc:$('tdesc').value,done:{}});$('tt').value='';$('ts').value='';$('tdesc').value='';save()}
+function taskStudent(id,sid){let t=db.tasks.find(x=>x.id==id);t.done[sid]=!t.done[sid];save()}
+function delTask(id){db.tasks=db.tasks.filter(x=>x.id!=id);save()}
+function addGrade(){let sid=+$('gs').value,v=+$('gv').value,sub=$('gsub').value.trim();if(!sid||!sub||isNaN(v))return alert('اطلاعات را کامل کنید');db.grades.push({id:Date.now(),sid,sub,v,date:iso()});$('gsub').value='';$('gv').value='';save()}
+function addReward(){let sid=+$('rs').value,v=+$('rv').value,why=$('rr').value.trim();if(!sid||!v)return alert('دانش‌آموز و امتیاز را وارد کنید');db.rewards.push({id:Date.now(),sid,v,why,date:iso()});$('rv').value='';$('rr').value='';save()}
+function addBehavior(){let sid=+$('bs').value,text=$('btext').value.trim();if(!sid||!text)return alert('اطلاعات را کامل کنید');db.behavior.push({id:Date.now(),sid,type:$('bt').value,text,date:$('bdate').value||iso()});$('btext').value='';save()}
+function addPenalty(){let sid=+$('ps').value,t=$('pt').value.trim();if(!sid||!t)return alert('دانش‌آموز و جریمه را وارد کنید');db.penalties.push({id:Date.now(),sid,t,created:iso(),deadline:$('pd').value||next(),done:false});$('pt').value='';save()}
+function togglePenalty(id){let x=db.penalties.find(p=>p.id==id);x.done=!x.done;save()}
+function addReminder(){let t=$('rt').value.trim();if(!t)return alert('عنوان را وارد کنید');db.reminders.push({id:Date.now(),t,date:$('rd').value||iso(),text:$('rx').value,done:false});$('rt').value='';$('rx').value='';save()}
+function toggleReminder(id){let x=db.reminders.find(r=>r.id==id);x.done=!x.done;save()}
+function del(id,type){db[type]=db[type].filter(x=>x.id!=id);save()}
+
+function renderStudents(){let q=$('search').value.trim();let a=db.students.filter(s=>s.name.includes(q));$('students').innerHTML=a.length?a.map(s=>`<div class="student"><strong>${esc(s.name)}</strong><span class="small">${esc(s.code||'بدون کد')}</span><p class="small">${esc(s.note||'')}</p><button class="btn red" onclick="delStudent(${s.id})">حذف</button></div>`).join(''):'<div class="empty">دانش‌آموزی نیست</div>'}
+function renderAtt(){let rec=db.att[iso()]||{};$('attDate').textContent=faDate(iso());$('attTable').innerHTML=db.students.length?db.students.map(s=>{let a=rec[s.id]||{};return `<tr><td><b>${esc(s.name)}</b></td><td><div class="actions"><button class="present" onclick="setAtt(${s.id},'حاضر')">✓ حاضر</button><button class="absent" onclick="setAtt(${s.id},'غایب')">✕ غایب</button><button class="late" onclick="setAtt(${s.id},'تأخیر')">⏱ تأخیر</button><button class="excused" onclick="setAtt(${s.id},'موجه')">موجه</button></div></td><td><input value="${esc(a.note||'')}" onchange="noteAtt(${s.id},this.value)" placeholder="یادداشت"></td></tr>`}).join(''):'<tr><td colspan="3" class="empty">ابتدا دانش‌آموز اضافه کنید</td></tr>'}
+function renderTasks(){let a=db.tasks.filter(t=>t.date==iso());$('tasks').innerHTML=a.length?a.map(t=>`<div class="item"><b>${esc(t.title)}</b> <span class="badge b">${esc(t.subject||'')}</span><div class="small">${esc(t.desc||'')} | مهلت: ${faDate(t.deadline)}</div><div style="margin-top:8px">${db.students.map(s=>`<button class="btn ${t.done[s.id]?'green':'gray'}" style="margin:2px" onclick="taskStudent(${t.id},${s.id})">${t.done[s.id]?'✓ ':''}${esc(s.name)}</button>`).join('')}</div><button class="btn red" style="margin-top:7px" onclick="delTask(${t.id})">حذف تکلیف</button></div>`).join(''):'<div class="empty">تکلیفی برای این روز ثبت نشده</div>'}
+function renderGrades(){let a=db.grades.slice().reverse();$('gradeList').innerHTML=a.length?`<table><tr><th>دانش‌آموز</th><th>درس</th><th>نمره</th><th>تاریخ</th><th></th></tr>${a.map(g=>{let s=db.students.find(x=>x.id==g.sid);return `<tr><td>${esc(s?.name)}</td><td>${esc(g.sub)}</td><td><b>${fa(g.v)}</b></td><td>${faDate(g.date)}</td><td><button class="btn red" onclick="del(${g.id},'grades')">حذف</button></td></tr>`}).join('')}</table>`:'<div class="empty">نمره‌ای ثبت نشده</div>';renderProfile()}
+function renderProfile(){let sid=+$('chartS').value||+$('profileS').value||0;if(!sid){$('chart').innerHTML='';$('profile').innerHTML='<div class="empty">دانش‌آموز را انتخاب کنید</div>';return} $('chartS').value=sid;$('profileS').value=sid;
+let s=db.students.find(x=>x.id==sid),gs=db.grades.filter(x=>x.sid==sid),rs=db.rewards.filter(x=>x.sid==sid),bs=db.behavior.filter(x=>x.sid==sid),ps=db.penalties.filter(x=>x.sid==sid),atts=Object.values(db.att).map(x=>x?.[sid]?.status).filter(Boolean),pres=atts.filter(x=>x==='حاضر'||x==='موجه').length,rate=atts.length?Math.round(pres/atts.length*100):0,avg=gs.length?gs.reduce((a,b)=>a+b.v,0)/gs.length:0,reward=rs.reduce((a,b)=>a+b.v,0);
+let by={};gs.forEach(g=>(by[g.sub]??=[]).push(g.v));let bars=Object.entries(by).map(([k,v])=>{let a=v.reduce((x,y)=>x+y,0)/v.length;return `<div style="margin:8px 0">${esc(k)} <b>${a.toFixed(2)}</b><div class="progress"><i style="width:${a/20*100}%"></i></div></div>`}).join('');
+$('chart').innerHTML=`<div class="grid" style="margin-top:10px"><div class="metric">میانگین نمرات<b>${avg.toFixed(2)}</b></div><div class="metric">درصد حضور<b>${rate}%</b></div><div class="metric">امتیاز تشویقی<b>${fa(reward)}</b></div><div class="metric">جریمه باز<b>${fa(ps.filter(x=>!x.done).length)}</b></div></div>${bars||'<div class="empty">نمره‌ای ندارد</div>'}`;
+$('profile').innerHTML=`<div class="profile" style="margin-top:12px"><div class="card" style="margin:0"><h3>${esc(s?.name)}</h3><div class="small">${esc(s?.note||'')}</div><hr><div class="small">تشویقی‌ها: ${rs.length} مورد</div><div class="small">یادداشت‌های رفتاری: ${bs.length} مورد</div></div><div class="card" style="margin:0"><h3>آخرین فعالیت‌ها</h3>${bs.slice(-5).reverse().map(x=>`<div class="small">• ${esc(x.type)}: ${esc(x.text)} — ${faDate(x.date)}</div>`).join('')||'<div class="empty">موردی ثبت نشده</div>'}</div></div>`}
+function renderBehavior(){let a=db.behavior.slice().reverse();$('behaviorList').innerHTML='<h3>📌 سوابق تشویق و انضباط</h3>'+(a.length?a.map(x=>{let s=db.students.find(z=>z.id==x.sid);return `<div class="item ${x.type.includes('تذکر')?'danger':''}"><b>${esc(s?.name)}</b> — ${esc(x.type)}<div>${esc(x.text)}</div><div class="small">${faDate(x.date)}</div></div>`}).join(''):'<div class="empty">سابقه‌ای ثبت نشده</div>');let p=db.penalties.slice().reverse();$('penalties').innerHTML='<h3>⚠️ جریمه‌ها و تعهدات</h3>'+(p.length?p.map(x=>{let s=db.students.find(z=>z.id==x.sid);return `<div class="item ${x.done?'done':'danger'}"><b>${esc(s?.name)}</b> — ${esc(x.t)}<div class="small">مهلت: ${faDate(x.deadline)}</div><button class="btn green" onclick="togglePenalty(${x.id})">${x.done?'باز کردن':'انجام شد'}</button></div>`}).join(''):'<div class="empty">جریمه‌ای ثبت نشده</div>')}
+function renderRem(){let a=db.reminders.slice().sort((x,y)=>x.date.localeCompare(y.date));$('reminders').innerHTML=a.length?a.map(x=>`<div class="item ${x.done?'done':''}"><b>${esc(x.t)}</b><div>${esc(x.text||'')}</div><div class="small">${faDate(x.date)}</div><button class="btn green" onclick="toggleReminder(${x.id})">${x.done?'باز کردن':'انجام شد'}</button></div>`).join(''):'<div class="empty">یادآوری‌ای نیست</div>'}
+function dashboard(){
+  let r=db.att[iso()]||{};
+  let st=db.students.map(s=>r[s.id]?.status||'').filter(Boolean);
+
+  $('s1').textContent=fa(db.students.length);
+  $('s2').textContent=fa(st.filter(x=>x==='حاضر').length);
+  $('s3').textContent=fa(st.filter(x=>x==='غایب').length);
+  $('s4').textContent=fa(db.penalties.filter(x=>!x.done).length);
+
+  $('today').innerHTML=`حاضر ${fa(st.filter(x=>x==='حاضر').length)} | غایب ${fa(st.filter(x=>x==='غایب').length)} | تأخیر ${fa(st.filter(x=>x==='تأخیر').length)} | موجه ${fa(st.filter(x=>x==='موجه').length)}`;
+
+  let absent=db.students.filter(s=>r[s.id]?.status==='غایب');
+  $('absentNames').innerHTML=absent.length
+    ? absent.map(s=>`<div class="dash-person abs"><div><div class="name">👤 ${esc(s.name)}</div><div class="detail">غیبت ثبت‌شده برای امروز</div></div><span class="tag absent">غایب</span></div>`).join('')
+    : '<div class="empty">امروز دانش‌آموز غایبی ثبت نشده است.</div>';
+
+  let openPenalties=db.penalties.filter(x=>!x.done);
+  $('penaltyNames').innerHTML=openPenalties.length
+    ? openPenalties.map(x=>{
+        let s=db.students.find(st=>st.id==x.sid);
+        return `<div class="dash-person pen"><div><div class="name">👤 ${esc(s?.name||'دانش‌آموز حذف‌شده')}</div><div class="detail">📌 ${esc(x.t||'جریمه')} • سررسید: ${faDate(x.deadline)}</div></div><span class="tag" style="background:#4a3511;color:#ffd36a">باز</span></div>`;
+      }).join('')
+    : '<div class="empty">هیچ جریمه یا تعهد بازی ثبت نشده است.</div>';
+
+  let n=db.penalties.filter(x=>!x.done).map(x=>({t:x.t,d:x.deadline})).concat(db.reminders.filter(x=>!x.done).map(x=>({t:x.t,d:x.date}))).sort((a,b)=>a.d.localeCompare(b.d)).slice(0,5);
+  $('near').innerHTML=n.length?n.map(x=>`<div class="small">🔔 ${esc(x.t)} — ${faDate(x.d)}</div>`).join(''):'مورد نزدیکی نیست';
+
+  let m=db.students.map(s=>({s,v:db.rewards.filter(x=>x.sid==s.id).reduce((a,b)=>a+b.v,0)})).sort((a,b)=>b.v-a.v).slice(0,5);
+  $('topRewards').innerHTML=m.length?m.map(x=>`<span class="badge p" style="margin:3px">${esc(x.s.name)}: ${fa(x.v)}</span>`).join(''):'دانش‌آموزی نیست';
+}
+function fill(){['gs','rs','bs','ps','chartS','profileS','reportS'].forEach(opts)}
+function renderAll(){$('faDate').textContent=faDate(iso());fill();renderStudents();renderAtt();renderTasks();renderGrades();renderBehavior();renderRem();dashboard()}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.t).classList.add('active')});
+function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='پشتیبان_کلاس_ششم.json';a.click()}
+function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();alert('بازیابی انجام شد')}catch(_){alert('فایل پشتیبان معتبر نیست')}};r.readAsText(f)}
+function exportCSV(){let rows=[['نام','درس','نمره','تاریخ'],...db.grades.map(g=>{let s=db.students.find(x=>x.id==g.sid);return[s?.name||'',g.sub,g.v,g.date]})];let csv='\ufeff'+rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='گزارش_نمرات_کلاس.csv';a.click()}
+function printReport(){let sid=+$('reportS').value;if(!sid)return alert('دانش‌آموز را انتخاب کنید');let s=db.students.find(x=>x.id==sid),gs=db.grades.filter(x=>x.sid==sid),rs=db.rewards.filter(x=>x.sid==sid),bs=db.behavior.filter(x=>x.sid==sid),ps=db.penalties.filter(x=>x.sid==sid),at=Object.values(db.att).map(x=>x?.[sid]?.status).filter(Boolean),rate=at.length?Math.round(at.filter(x=>x==='حاضر'||x==='موجه').length/at.length*100):0,avg=gs.length?(gs.reduce((a,b)=>a+b.v,0)/gs.length).toFixed(2):'—';let w=window.open('','_blank');w.document.write(`<html dir="rtl"><head><meta charset="utf-8"><title>کارنامه ${esc(s.name)}</title><style>body{font-family:Tahoma;padding:30px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ddd;padding:8px}h1{color:#2563eb}.box{display:inline-block;padding:15px;margin:5px;background:#f1f5f9;border-radius:10px}</style></head><body><h1>گزارش دانش‌آموز: ${esc(s.name)}</h1><div class="box">میانگین: ${avg}</div><div class="box">حضور: ${rate}%</div><div class="box">تشویقی: ${rs.reduce((a,b)=>a+b.v,0)}</div><h2>نمرات</h2><table><tr><th>درس</th><th>نمره</th><th>تاریخ</th></tr>${gs.map(g=>`<tr><td>${esc(g.sub)}</td><td>${g.v}</td><td>${faDate(g.date)}</td></tr>`).join('')}</table><h2>سوابق رفتاری</h2>${bs.map(x=>`<p>${esc(x.type)}: ${esc(x.text)} — ${faDate(x.date)}</p>`).join('')||'موردی ثبت نشده'}<h2>جریمه‌ها</h2>${ps.map(x=>`<p>${esc(x.t)} — مهلت ${faDate(x.deadline)} — ${x.done?'انجام شد':'باز'}</p>`).join('')||'موردی ثبت نشده'}<script>window.print()<\/script></body></html>`);w.document.close()}
+$('date').value=new Date().toISOString().slice(0,10);$('td').value=iso();$('tdeadline').value=iso();$('bdate').value=iso();$('pd').value=next();$('rd').value=iso();renderAll();
+</script>
+
+<script>
+(function(){
+  const status=document.getElementById('networkStatus');
+  const installBtn=document.getElementById('installBtn');
+  let deferredPrompt=null;
+  function updateNetwork(){
+    if(!status)return;
+    if(navigator.onLine){status.textContent='🟢 آنلاین';status.style.color='#86efac';}
+    else{status.textContent='🔴 آفلاین';status.style.color='#fca5a5';}
+  }
+  window.addEventListener('online',updateNetwork);
+  window.addEventListener('offline',updateNetwork);
+  updateNetwork();
+
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault();
+    deferredPrompt=e;
+    if(installBtn)installBtn.style.display='inline-block';
+  });
+  if(installBtn){
+    installBtn.addEventListener('click',async()=>{
+      if(!deferredPrompt){
+        alert('اگر گزینه نصب نمایش داده نشد، از منوی مرورگر گزینه «Install app / نصب برنامه» یا «Add to Home screen» را انتخاب کنید.');
+        return;
+      }
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt=null;
+      installBtn.style.display='none';
+    });
+  }
+  window.addEventListener('appinstalled',()=>{
+    deferredPrompt=null;
+    if(installBtn)installBtn.style.display='none';
+  });
+
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('./sw.js',{scope:'./'})
+        .then(reg=>{
+          console.log('PWA فعال شد:',reg.scope);
+          reg.update().catch(()=>{});
+        })
+        .catch(err=>console.error('Service Worker error:',err));
+    });
+  }
+})();
+</script>
+</body></html>
